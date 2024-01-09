@@ -13,7 +13,53 @@ header {
   font-weight: bold;
 }
 
-main .container {
+main.container {
   max-width: 900px;
   margin: 1.5rem auto;
+}
+
+.btn {
+  border: none;
+}
+
+.btn-primary {
+  background-color: #111;
+}
+
+.btn-primary:hover {
+  background-color: #666;
+}
+
+.btn-secondary {
+  background-color: #666;
+}
+
+.btn-secondary:hover {
+  background-color: #999;
+}
+
+/* index.ejs file*/
+#sorting {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+#pagination {
+  display: flex;
+  justify-content: center;
+  column-gap: 1rem;
+}
+
+#books {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+#books .row {
+  margin-bottom: 1rem;
+}
+
+#books .col-2 img {
+  width: 100%;
 }
