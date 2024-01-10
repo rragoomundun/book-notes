@@ -69,7 +69,6 @@ app.get('/books/:id/:title', async (req, res) => {
 
     res.render('book.ejs', book);
   } catch {
-    console.log('ERROR');
     res.render('book.ejs', { error: true });
   }
 });
