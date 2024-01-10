@@ -12,6 +12,15 @@ const API_BASE = process.env.API_BASE;
 
 app.use(express.static('public'));
 
+function getBookDate(book) {
+  const date = new Date(book.date);
+  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+}
+
+function getBookURL(book) {
+  return `/books/${book.id}/${book.title.toLowerCase().replaceAll(' ', '-')}`;
+}
+
 app.get('/', async (req, res) => {
   let nbPages;
   let currentPage = 1;
@@ -39,16 +48,30 @@ app.get('/', async (req, res) => {
 
     // Set for each book the date in the appropriate format and the url
     for (const book of books) {
-      const date = new Date(book.date);
-
-      book.date = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-      book.url = `/book/${book.id}/${book.title.toLowerCase().replaceAll(' ', '-')}`;
+      book.date = getBookDate(book);
+      book.url = getBookURL(book);
     }
   } catch (error) {
     console.log(error);
   }
 
   res.render('index.ejs', { nbPages, currentPage, order, books });
+});
+
+app.get('/books/:id/:title', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await axios.get(`${API_BASE}/books/${id}`);
+    const book = result.data;
+
+    book.date = getBookDate(book);
+    book.url = getBookURL(book);
+
+    res.render('book.ejs', book);
+  } catch {
+    console.log('ERROR');
+    res.render('book.ejs', { error: true });
+  }
 });
 
 app.listen(PORT, () => {

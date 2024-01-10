@@ -38,7 +38,7 @@ main.container {
   background-color: #999;
 }
 
-/* index.ejs file*/
+/* index.ejs and book.ejs files */
 #sorting {
   display: flex;
   align-items: center;
@@ -51,33 +51,39 @@ main.container {
   column-gap: 1rem;
 }
 
-#books {
+#books,
+#book {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
-#books a {
+#books a,
+#book a {
   color: inherit;
   text-decoration: none;
 }
 
-#books .row {
+#books .row,
+#book .row {
   margin-bottom: 1rem;
 }
 
-#books img {
+#books img,
+#book img {
   display: block;
   width: 100%;
 }
 
 @media (max-width: 767px) {
-  #books img {
+  #books img,
+  #book img {
     width: auto;
   }
 }
 
 @media (max-width: 575px) {
-  #books img {
+  #books img,
+  #book img {
     margin: auto;
     margin-bottom: 1rem;
   }

@@ -1,0 +1,25 @@
+<%- include('partials/header.ejs') %>
+
+<main class="container">
+  <div id="book">
+    <% if (locals.error) { %>
+    <h1 class="text-center">Error 404: cannot find book.</h1>
+    <% } else { %>
+    <div class="row">
+      <div class="col-xs-12 col-sm-4 col-md-3">
+        <a href="<%= url %>">
+          <img src="https://covers.openlibrary.org/b/isbn/<%= isbn %>-M.jpg" alt="<%= title %> book image" />
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-8 col-md-9">
+        <h3><a href="<%= url %>"><%= title %> by <%= author %></a></h3>
+        <p>Release date : <%= date %>; Rating: <%= rating %> / 10</p>
+        <p>ISBN: <%= isbn %></p>
+        <p><%= notes %></p>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</main>
+
+<%- include('partials/footer.ejs') %>
