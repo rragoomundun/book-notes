@@ -26,7 +26,7 @@ app.get('/', async (req, res) => {
   }
 
   if (req.query.p) {
-    currentPage = req.query.p;
+    currentPage = Number(req.query.p);
   }
 
   if (req.query.order) {
@@ -34,8 +34,16 @@ app.get('/', async (req, res) => {
   }
 
   try {
-    const result = await axios.get(`${API_BASE}/books/all`, { params: { currentPage, order } });
+    const result = await axios.get(`${API_BASE}/books/all`, { params: { p: currentPage, order } });
     books = result.data;
+
+    // Set for each book the date in the appropriate format and the url
+    for (const book of books) {
+      const date = new Date(book.date);
+
+      book.date = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+      book.url = `/book/${book.id}/${book.title.toLowerCase().replaceAll(' ', '-')}`;
+    }
   } catch (error) {
     console.log(error);
   }

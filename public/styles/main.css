@@ -56,10 +56,29 @@ main.container {
   margin-bottom: 2rem;
 }
 
+#books a {
+  color: inherit;
+  text-decoration: none;
+}
+
 #books .row {
   margin-bottom: 1rem;
 }
 
-#books .col-2 img {
+#books img {
+  display: block;
   width: 100%;
+}
+
+@media (max-width: 767px) {
+  #books img {
+    width: auto;
+  }
+}
+
+@media (max-width: 575px) {
+  #books img {
+    margin: auto;
+    margin-bottom: 1rem;
+  }
 }
