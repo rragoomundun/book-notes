@@ -89,7 +89,7 @@ main.container {
   }
 }
 
-/* addBook.ejs */
+/* addBook.ejs file */
 #add-book-submit {
   display: flex;
   gap: 1rem;
