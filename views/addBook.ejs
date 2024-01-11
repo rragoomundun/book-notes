@@ -1,0 +1,99 @@
+<%- include('partials/header.ejs') %>
+
+<main class="container">
+  <form id="add-book" action="/books/add" method="POST">
+    <% if (locals.error === undefined) { %>
+    <div class="mb-3">
+      <label for="add-book-title" class="form-label">Title</label>
+      <input id="add-book-title" name="title" type="text" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="add-book-author" class="form-label">Author</label>
+      <input id="add-book-author" name="author" type="text" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="add-book-isbn13" class="form-label" required>ISBN-13</label>
+      <input id="add-book-isbn13" name="isbn" type="text" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="add-book-date" class="form-label">Release Date</label>
+      <input id="add-book-date" name="date" type="date" max="<%= maxDate %>" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="add-book-notes">Notes</label>
+      <textarea id="add-book-notes" name="notes" cols="30" rows="10" class="form-control" required></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="add-book-rating">Rating</label>
+      <input id="add-book-rating" name="rating" type="number" min="0" max="10" class="form-control" required />
+    </div>
+    <% } else { %>
+    <div class="mb-3">
+      <label for="add-book-title" class="form-label">Title</label>
+      <input id="add-book-title" name="title" type="text" class="form-control" value="<%= title %>" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="add-book-author" class="form-label">Author</label>
+      <input id="add-book-author" name="author" type="text" class="form-control" value="<%= author %>" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="add-book-isbn13" class="form-label" required>ISBN-13</label>
+      <input id="add-book-isbn13" name="isbn" type="text" class="form-control" value="<%= isbn %>" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="add-book-date" class="form-label">Release Date</label>
+      <input
+        id="add-book-date"
+        name="date"
+        type="date"
+        max="<%= maxDate %>"
+        class="form-control"
+        value="<%= date %>"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="add-book-notes">Notes</label>
+      <textarea id="add-book-notes" name="notes" cols="30" rows="10" class="form-control" required>
+<%= notes %></textarea
+      >
+    </div>
+
+    <div class="mb-3">
+      <label for="add-book-rating">Rating</label>
+      <input
+        id="add-book-rating"
+        name="rating"
+        type="number"
+        min="0"
+        max="10"
+        class="form-control"
+        value="<%= rating %>"
+        required
+      />
+    </div>
+    <% } %>
+
+    <div id="add-book-submit" class="mb-3">
+      <div>
+        <% if (locals.error) { %>
+        <p>Can't add book. The ISBN might already be in use. Try again</p>
+        <% } %>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary">Add Book</button>
+      </div>
+    </div>
+  </form>
+</main>
+
+<%- include('partials/footer.ejs') %>
