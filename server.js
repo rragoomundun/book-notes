@@ -77,7 +77,7 @@ app.get('/books/:id/:title', async (req, res) => {
   }
 });
 
-app.get('/books/add', async (req, res) => {
+function getMaxReleaseDate() {
   const date = new Date();
   let month = String(date.getMonth() + 1),
     day = String(date.getDate());
@@ -90,18 +90,23 @@ app.get('/books/add', async (req, res) => {
     day = `0${day}`;
   }
 
-  const maxDate = `${date.getFullYear()}-${month}-${day}`;
+  return `${date.getFullYear()}-${month}-${day}`;
+}
 
-  res.render('addBook.ejs', { maxDate });
+app.get('/books/add', async (req, res) => {
+  res.render('addBook.ejs', { maxDate: getMaxReleaseDate() });
 });
 
 app.post('/books/add', async (req, res) => {
   try {
     const result = await axios.post(`${API_BASE}/books/add`, req.body);
-    // TODO: Go to book page /books/:id/:title
-  } catch {}
+    const book = result.data;
+    const bookUrl = getBookURL(book);
 
-  res.send();
+    res.redirect(bookUrl);
+  } catch {
+    res.render('addBook.ejs', { ...req.body, maxDate: getMaxReleaseDate(), error: true });
+  }
 });
 
 app.listen(PORT, () => {
