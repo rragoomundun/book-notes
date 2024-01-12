@@ -22,8 +22,10 @@ main.container {
   border: none;
 }
 
+a.btn-primary,
 .btn-primary {
   background-color: #111;
+  color: #fff !important;
 }
 
 .btn-primary:hover {
@@ -89,17 +91,20 @@ main.container {
   }
 }
 
-/* addBook.ejs file */
-#add-book-submit {
+/* addBook.ejs and editBook.ejs files */
+#add-book-submit,
+#edit-book-submit {
   display: flex;
   gap: 1rem;
 }
 
-#add-book-submit div:nth-of-type(1) {
+#add-book-submit div:nth-of-type(1),
+#edit-book-submit div:nth-of-type(1) {
   flex-grow: 1;
 }
 
-#add-book-submit div:nth-of-type(2) {
+#add-book-submit div:nth-of-type(2),
+#edit-book-submit div:nth-of-type(2) {
   min-width: 100px;
   text-align: right;
 }

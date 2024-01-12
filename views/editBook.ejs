@@ -1,0 +1,71 @@
+<%- include('partials/header.ejs') %>
+
+<main class="container">
+  <% if (locals.errorNotFound) { %>
+  <h1 class="text-center">Error 404: cannot find book to update.</h1>
+  <% } else { %>
+  <form action="<%= url %>/edit" method="POST">
+    <div class="mb-3">
+      <label for="add-book-title" class="form-label">Title</label>
+      <input id="add-book-title" name="title" type="text" class="form-control" value="<%= title %>" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="add-book-author" class="form-label">Author</label>
+      <input id="add-book-author" name="author" type="text" class="form-control" value="<%= author %>" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="add-book-isbn13" class="form-label" required>ISBN-13</label>
+      <input id="add-book-isbn13" name="isbn" type="text" class="form-control" value="<%= isbn %>" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="add-book-date" class="form-label">Release Date</label>
+      <input
+        id="add-book-date"
+        name="date"
+        type="date"
+        max="<%= maxDate %>"
+        class="form-control"
+        value="<%= date %>"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="add-book-notes">Notes</label>
+      <textarea id="add-book-notes" name="notes" cols="30" rows="10" class="form-control" required>
+<%= notes %></textarea
+      >
+    </div>
+
+    <div class="mb-3">
+      <label for="add-book-rating">Rating</label>
+      <input
+        id="add-book-rating"
+        name="rating"
+        type="number"
+        min="0"
+        max="10"
+        class="form-control"
+        value="<%= rating %>"
+        required
+      />
+    </div>
+
+    <div id="edit-book-submit" class="mb-3">
+      <div>
+        <% if (locals.errorISBN) { %>
+        <p>Can't update book. The ISBN might already be used. Try again</p>
+        <% } %>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary">Edit Book</button>
+      </div>
+    </div>
+  </form>
+  <% } %>
+</main>
+
+<%- include('partials/footer.ejs') %>

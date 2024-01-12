@@ -27,6 +27,8 @@
         <h3><a href="<%= book.url %>"><%= book.title %> by <%= book.author %></a></h3>
         <p>Release date : <%= book.date %>; Rating: <%= book.rating %> / 10</p>
         <p><%= book.notes %></p>
+
+        <a href="<%= book.url %>/edit" class="btn btn-primary">Edit</a>
       </div>
     </div>
     <% } %>

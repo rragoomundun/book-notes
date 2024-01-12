@@ -21,8 +21,50 @@ function getBookDate(book) {
   return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
 }
 
+function getMaxReleaseDate() {
+  const date = new Date();
+  let month = String(date.getMonth() + 1),
+    day = String(date.getDate());
+
+  if (month.length === 1) {
+    month = `0${month}`;
+  }
+
+  if (day.length === 1) {
+    day = `0${day}`;
+  }
+
+  return `${date.getFullYear()}-${month}-${day}`;
+}
+
+function getDateYYYYMMDD(d) {
+  const date = new Date(d);
+  let month = String(date.getMonth() + 1),
+    day = String(date.getDate());
+
+  if (month.length === 1) {
+    month = `0${month}`;
+  }
+
+  if (day.length === 1) {
+    day = `0${day}`;
+  }
+
+  return `${date.getFullYear()}-${month}-${day}`;
+}
+
 function getBookURL(book) {
   return `/books/${book.id}/${book.title.toLowerCase().replaceAll(' ', '-')}`;
+}
+
+async function getBook(id) {
+  const result = await axios.get(`${API_BASE}/books/${id}`);
+  const book = result.data;
+
+  book.date = getDateYYYYMMDD(book.date);
+  book.url = getBookURL(book);
+
+  return book;
 }
 
 app.get('/', async (req, res) => {
@@ -52,7 +94,7 @@ app.get('/', async (req, res) => {
 
     // Set for each book the date in the appropriate format and the url
     for (const book of books) {
-      book.date = getBookDate(book);
+      book.date = getDateYYYYMMDD(book.date);
       book.url = getBookURL(book);
     }
   } catch (error) {
@@ -65,33 +107,13 @@ app.get('/', async (req, res) => {
 app.get('/books/:id/:title', async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await axios.get(`${API_BASE}/books/${id}`);
-    const book = result.data;
-
-    book.date = getBookDate(book);
-    book.url = getBookURL(book);
+    const book = await getBook(id);
 
     res.render('book.ejs', book);
   } catch {
     res.render('book.ejs', { error: true });
   }
 });
-
-function getMaxReleaseDate() {
-  const date = new Date();
-  let month = String(date.getMonth() + 1),
-    day = String(date.getDate());
-
-  if (month.length === 1) {
-    month = `0${month}`;
-  }
-
-  if (day.length === 1) {
-    day = `0${day}`;
-  }
-
-  return `${date.getFullYear()}-${month}-${day}`;
-}
 
 app.get('/books/add', async (req, res) => {
   res.render('addBook.ejs', { maxDate: getMaxReleaseDate() });
@@ -106,6 +128,33 @@ app.post('/books/add', async (req, res) => {
     res.redirect(bookUrl);
   } catch {
     res.render('addBook.ejs', { ...req.body, maxDate: getMaxReleaseDate(), error: true });
+  }
+});
+
+app.get('/books/:id/:title/edit', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const book = await getBook(id);
+
+    book.date = getDateYYYYMMDD(book.date);
+
+    res.render('editBook.ejs', { ...book, maxDate: getMaxReleaseDate() });
+  } catch {
+    res.render('editBook.ejs', { errorNotFound: true });
+  }
+});
+
+app.post('/books/:id/:title/edit', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await axios.put(`${API_BASE}/books/${id}/update`, req.body);
+    res.redirect(getBookURL({ ...req.body, id }));
+  } catch {
+    const book = req.body;
+    book.url = getBookURL({ ...req.body, id });
+
+    res.render('editBook.ejs', { ...book, maxDate: getMaxReleaseDate(), errorISBN: true });
   }
 });
 
