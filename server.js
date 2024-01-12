@@ -16,11 +16,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('public'));
 
-function getBookDate(book) {
-  const date = new Date(book.date);
-  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-}
-
 function getMaxReleaseDate() {
   const date = new Date();
   let month = String(date.getMonth() + 1),
