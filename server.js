@@ -16,11 +16,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('public'));
 
-function getBookDate(book) {
-  const date = new Date(book.date);
-  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-}
-
 function getMaxReleaseDate() {
   const date = new Date();
   let month = String(date.getMonth() + 1),
@@ -155,6 +150,17 @@ app.post('/books/:id/:title/edit', async (req, res) => {
     book.url = getBookURL({ ...req.body, id });
 
     res.render('editBook.ejs', { ...book, maxDate: getMaxReleaseDate(), errorISBN: true });
+  }
+});
+
+app.get('/books/:id/:title/delete', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await axios.delete(`${API_BASE}/books/${id}/delete`);
+
+    res.redirect('/');
+  } catch {
+    console.log('Cannot delete book');
   }
 });
 
