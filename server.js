@@ -158,6 +158,17 @@ app.post('/books/:id/:title/edit', async (req, res) => {
   }
 });
 
+app.get('/books/:id/:title/delete', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await axios.delete(`${API_BASE}/books/${id}/delete`);
+
+    res.redirect('/');
+  } catch {
+    console.log('Cannot delete book');
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server runnig on port ${PORT}`);
 });
